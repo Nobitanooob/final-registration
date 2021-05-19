@@ -17,7 +17,7 @@ const db = require('./config/mongoose.js');  // using mongoose to connect to mon
 const app = express();
 
 
-const whitelist = ['http://localhost:3000', 'http://localhost:8000','http://localhost:8000/api/', 'https://studentregistrations.herokuapp.com']
+const whitelist = ['http://localhost:3000', 'http://localhost:8000/','http://localhost:8000/api/', 'https://studentregistrations.herokuapp.com']
 const corsOptions = {
   origin: function (origin, callback) {
     console.log("** Origin of request" + origin)
