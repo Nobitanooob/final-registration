@@ -26,7 +26,7 @@ router.route('/status').post(async (req, res) => {
     
 })
 
-// registration form via firebase
+// registration form via 
 router.route('/uploadForm/:id').post(async (req, res) => {
 
     try {
