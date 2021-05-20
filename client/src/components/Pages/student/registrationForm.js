@@ -8,7 +8,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import * as Yup from 'yup';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
+import {Storage} from "../../../index";
 import Notification from '../../toasts'
 
 
@@ -24,26 +25,50 @@ function RegistrationForm() {
   useEffect(() => {
     axios.get(`/api/user/${localStorage.userId}`)
       .then((data) => {
-        console.log('user data', data.data.user);
+        // console.log('user data', data.data.user);
         setUser(data.data.user);
       });
    }, []);
 
-  const handleFile = async (uploadedFile) => {
-    try {
-      
-      let file = uploadedFile[0];
-      const storageRef = firebase.storage().ref();
-      const emailRef = storageRef.child(user.email);
-      const fileRef = emailRef.child(file.name);
-      await fileRef.put(file);
-      const fileUrl = await fileRef.getDownloadURL();
-      setUrl(fileUrl);
-    } catch (error) {
-      console.log(`error!!`, error);
-    }
+  const handleFile = async (uploaded) => {
+    const reader = new FileReader();
+    let file = uploaded[0]; // get the supplied file
+    // if there is a file, set image to that file
+    if (file) {
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          // console.log(file);
+          setFile(file);
+        }
+      };
+      reader.readAsDataURL(uploaded[0]);
+    // if there is no file, set image back to null
+    } else {
+      setFile(null);
+    };
+ 
+          //   let file = e[0];
+          //   const StorageRef = Storage.ref(`${localStorage.userId}/`);
+          //   const fileRef = StorageRef.child(`/url/data/${file.name}`);
+          //   fileRef.put(e)
+          //   const fileUrl = fileRef.getDownloadURL();
+          //   setUrl(fileUrl);
+          // console.log(fileUrl);
     
   };
+  const uploadToFirebase = () => {
+      const fileRef = Storage.ref(`${localStorage.userId}/forms/${uploadedFile.name}`);
+      fileRef.put(uploadedFile).then(()=>{
+        alert("success");
+      })
+      .catch((e)=>{alert('not')});
+      fileRef.getDownloadURL()
+      .then((url)=>{
+        setUrl(url);
+      });
+  };
+
+
   const initialValues={
     // name: '', email: '', department: '',programme:""
   };
@@ -56,8 +81,7 @@ function RegistrationForm() {
   const onSubmit = async (value, { resetForm }) => {
     SetButtonText("Submitting ...");
     try {
-     handleFile(uploadedFile);
-     console.log(value);
+     uploadToFirebase();
      let form = {
        name: user.name,
        email: user.email,
@@ -184,13 +208,17 @@ function RegistrationForm() {
                   </Select>
                 </FormControl>
                  <input
-                    onChange={(e)=>setFile(e.target.files)}
+                  onChange={(e)=>handleFile(e.target.files)}
                     id="contained-button-file"
                     type="file"
                     style={{marginBottom:"10px"}} />
                   <label htmlFor="contained-button-file">
                     
                 </label>
+                <br />
+                <small style={{marginBottom : '5px'}}>*NOTE* Please upload the <strong>pdf format as name_rollno.pdf</strong></small>
+                <br />
+                <small style={{marginBottom : '10px'}}>*NOTE* Upload all the recipts in one pdf</small>
                   <Button
                     type="submit"
                     style={{marginBottom:"10px"}}
