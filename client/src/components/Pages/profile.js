@@ -65,7 +65,6 @@ const About = (props) => {
   if (!user)
   {
     return <Spinner />
-    // return <div>No user found!!</div>
   }
   return (
     <Grid container item  >
