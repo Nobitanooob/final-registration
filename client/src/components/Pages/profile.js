@@ -40,10 +40,7 @@ const About = (props) => {
   };
 
 
-  const users={
-    id:`${localStorage.userId}`,
-    profile:fileUrl
-   };
+  
 
 
   const uploadToFirebase =  async() => {
@@ -52,8 +49,14 @@ const About = (props) => {
      await fileRef.put(uploadedFile);
      const url=await fileRef.getDownloadURL();
         setUrl(url);
-    
-    await axios.post(`/api/user`, users);
+        console.log(url);
+        const users={
+          id:`${localStorage.userId}`,
+          profile:url
+         };
+         console.log(users);
+    await axios.post(`/api/userdata`, users);
+
     window.location.reload();
 
 };
