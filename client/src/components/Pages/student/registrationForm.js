@@ -30,15 +30,11 @@ const RegistrationForm=(props) =>{
    }, []);
 
   const handleFile = async (uploaded) => {
-    const reader = new FileReader();
-    let file = uploaded[0]; 
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-           setFile(file);
-        }
-      };
-      reader.readAsDataURL(uploaded[0]);
     
+    let file =await uploaded[0]; 
+    
+          await setFile(file);
+       
     
   };
   

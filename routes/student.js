@@ -41,6 +41,7 @@ router.route('/uploadForm/:id').post(async (req, res) => {
             file: req.body.fileUrl,
             isVerified : 'pending' 
         }
+        
         console.log(form);
         let newForm = await Reg_Form.create(form);
         console.log('newform', newForm);
