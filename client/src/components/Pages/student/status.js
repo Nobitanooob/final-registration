@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { blue, green } from '@material-ui/core/colors';
 import { red } from '@material-ui/core/colors';
 import Chip from '@material-ui/core/Chip';
+import Spinner from '../helper/spinner';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +43,10 @@ const Status = () => {
         //console.lof(Error);
       });
   }, [])
-
+  if (!forms)
+  {
+    return <Spinner />
+    }
 
   return (
     isEmpty ?
