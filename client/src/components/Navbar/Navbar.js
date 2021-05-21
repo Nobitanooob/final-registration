@@ -13,13 +13,14 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import {  Route } from 'react-router-dom';
-import Brightness5OutlinedIcon from '@material-ui/icons/Brightness5Outlined';
-import Brightness7RoundedIcon from '@material-ui/icons/Brightness7Rounded';
+import Brightness4TwoToneIcon from '@material-ui/icons/Brightness4TwoTone';
+import FlareTwoToneIcon from '@material-ui/icons/FlareTwoTone';
+
 // for student 
 import Profile from '../Pages/profile';
 import RegistrationForm from '../Pages/student/registrationForm';
 import Status from '../Pages/student/status';
-import changePassword from '../Pages/changePassword';
+import ChangePassword from '../Pages/changePassword';
  // for teacher
 import AddNewUser from '../Pages/teacher/addNewUser';
 import PendingRegistration from '../Pages/teacher/pendingRegistration';
@@ -74,6 +75,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar=(props)=> {
   const [userData,setUserData]=useState({});
+  const [appbarDark,setAppbar]=useState('secondary');
+  const [profileColor,setColor]=useState('#3f51b5');
     const { windows } = props;
     const classes = useStyles();
     const theme = useTheme();
@@ -84,6 +87,18 @@ const Navbar=(props)=> {
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
     };
+    const theming=()=>{
+          if(darkTheme==='dark'){
+            setDarktheme('light');
+            setAppbar('primary');
+            setColor('#3f51b5')
+          }else{
+            setColor('#3f51b5')
+            setDarktheme('dark');
+            setAppbar('secondary');
+          }
+    };
+    
     useEffect(() => {
       // getting user details by api call
       axios.get(`/api/user/${localStorage.getItem('userId')}`)
@@ -108,25 +123,25 @@ const Navbar=(props)=> {
       draggable: true,
       progress: undefined,
     }));
-	}
+	};
 	if (props.isStudent)
 	{
         const drawer = (
             
           <div>
-                
           <div style={{
             display: "flex",
             flexDirection: 'row', alignItems: 'center', height: 100, justifyContent: 'space-around'
           }}>
             <Avatar
+            alt="profile"
+            src={userData.profile}
               style={{
                 width: theme.spacing(7),
                 height: theme.spacing(7),
-                backgroundColor: '#3f51b5',
-                textTransform: "uppercase"
+                textTransform: "uppercase",
+                background:profileColor
               }}>
-              {userData && userData.name &&  userData.name.charAt(0)}
               </Avatar>
             <div>
               <h1 style={{
@@ -161,7 +176,7 @@ const Navbar=(props)=> {
             <>
             <div className={classes.root}>
               <CssBaseline />
-              <AppBar position="fixed" className={classes.appBar}>
+              <AppBar position="fixed" className={classes.appBar} color={appbarDark}>
                 <Toolbar>
                   <IconButton
                     color="inherit"
@@ -177,10 +192,8 @@ const Navbar=(props)=> {
                     <Route path='/' exact  >Registration</Route>
                     <Route path='/status'exact  >Status</Route>
                     <Route path='/changePassword' exact >Change Password</Route></Typography>
-                  <IconButton component="span" onClick={()=>{
-                      darkTheme==="dark"? setDarktheme("light") : setDarktheme('dark')
-                  }}>
-                      { darkTheme==="dark"  ?<Brightness5OutlinedIcon style={{color:"white"}} />:<Brightness7RoundedIcon style={{color:"white"}} />}
+                  <IconButton component="span" onClick={theming}>
+                      { darkTheme==="dark"  ?<Brightness4TwoToneIcon style={{color:"white"}} />:<FlareTwoToneIcon style={{color:"white"}} />}
                   </IconButton>
                   <Button  color="inherit" type="submit" onClick={handleSignout}>LogOut</Button>
                   
@@ -220,13 +233,10 @@ const Navbar=(props)=> {
               <main className={classes.content}>
                   
                 <div className={classes.toolbar} />
-
-                
-                  
-                        <Route path='/' exact  component={RegistrationForm} />
-                        <Route path='/changePassword' exact  component={changePassword} />
-                        <Route path='/profile' exact  component={Profile} />
-                        <Route path='/status'exact  component={Status} />
+                         <Route path='/' exact  render={() => <RegistrationForm appBar={appbarDark} />} />
+                        <Route path='/changePassword' exact render={() => <ChangePassword appBar={appbarDark} />} />
+                        <Route path='/profile' exact render={() => <Profile appBar={appbarDark} profileColor={profileColor} />}   />
+                        <Route path='/status'exact render={() => <Status appBar={appbarDark} />}/>
                         
               </main>
             </div>
@@ -245,13 +255,14 @@ const Navbar=(props)=> {
           flexDirection: 'row', alignItems: 'center', height: 100, justifyContent: 'space-around'
         }}>
           <Avatar
+          alt="profile"
+          src={userData.profile}
             style={{
               width: theme.spacing(7),
               height: theme.spacing(7),
-              backgroundColor: '#3f51b5',
+              backgroundColor: profileColor,
               textTransform: "uppercase"
             }}>
-            {userData && userData.name && userData && userData.name.charAt(0)}
             </Avatar>
           <div>
             <h1 style={{
@@ -282,7 +293,7 @@ const Navbar=(props)=> {
             <div className={classes.root}>
               
               <CssBaseline />
-              <AppBar position="fixed" className={classes.appBar}>
+              <AppBar position="fixed" className={classes.appBar} color={appbarDark}>
                 <Toolbar>
                   <IconButton
                     color="inherit"
@@ -300,10 +311,8 @@ const Navbar=(props)=> {
                     <Route path='/search'exact  >Search</Route>
                     <Route path='/changePassword'exact  >Change Password</Route> 
                   </Typography>
-                  <IconButton component="span" onClick={()=>{
-                      darkTheme==="dark"? setDarktheme("light") : setDarktheme('dark')
-                  }}>
-                      { darkTheme==="dark"  ?<Brightness5OutlinedIcon style={{color:"white"}} />:<Brightness7RoundedIcon style={{color:"white"}} />}
+                  <IconButton component="span" onClick={theming}>
+                      { darkTheme==="dark"  ?<Brightness4TwoToneIcon style={{color:"white"}} />:<FlareTwoToneIcon style={{color:"white"}} />}
                   </IconButton>
                   <Button  color="inherit" type="submit" onClick={handleSignout}>LogOut</Button>
                 </Toolbar>
@@ -342,14 +351,12 @@ const Navbar=(props)=> {
               <main className={classes.content}>
                   
                 <div className={classes.toolbar} />
-
-            
                   
-                <Route path='/' exact component={PendingRegistration} />
-				<Route path='/profile' component={Profile} />
-				<Route path='/addNewUser' component={AddNewUser} />
-				<Route path='/search' component={SearchUser} />
-				<Route path='/changePassword' component={changePassword} />
+                <Route path='/' exact render={() => <PendingRegistration appBar={appbarDark} />} />
+				<Route path='/profile' render={()=> <Profile appBar={appbarDark} profileColor={profileColor} /> } />
+				<Route path='/addNewUser' render={()=> <AddNewUser appBar={appbarDark} /> }  />
+				<Route path='/search' render={()=> <SearchUser appBar={appbarDark} />  } />
+				<Route path='/changePassword' render={()=> <ChangePassword appBar={appbarDark} /> } />
                         
               </main>
             </div>

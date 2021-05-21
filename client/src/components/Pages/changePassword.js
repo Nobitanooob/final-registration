@@ -5,18 +5,18 @@ import FormPasswordReset from './helper/formPasswordReset'
 
 
 
-function App() {
+function App(props) {
   return (
     <div className="App">
-      <FormPasswordReset />
+      <FormPasswordReset appBar={props.appBar} />
     </div>
   )
 }
 
-export default function changePassword(){
+export default function ChangePassword(props){
   return (
     <CssBaseline>
-      <App />
+      <App appBar={props.appBar} />
     </CssBaseline>
     );
 }

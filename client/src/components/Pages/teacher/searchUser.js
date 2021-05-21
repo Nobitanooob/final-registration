@@ -7,7 +7,7 @@ import SimplePopover from "../helper/popover.js"
 import Spinner from '../helper/spinner.js';
 
 
-export default function SearchUser() {
+export default function User(props) {
   
   const [user, setUser] = useState();
   const [filter, setFilter] = useState('name');
@@ -63,7 +63,7 @@ export default function SearchUser() {
     {
       field: 'forms', headerName: 'User Forms', width: 140,
       renderCell: (params) => (
-        <SimplePopover forms = {params} />
+        <SimplePopover forms = {params} appBar={props.appBar} />
       ),
     }
   ];

@@ -15,6 +15,10 @@ router.route('/').get((req, res) => {
     return res.render('reg.ejs');
 });
 
+
+
+
+
 router.route('/allReg').get(async (req, res) => {
     try {
         let reg = await Reg_Form.find({}).populate('userId');
@@ -29,6 +33,35 @@ router.route('/allReg').get(async (req, res) => {
         });
     }
 });
+//post user
+router.route('/user').post(async(req,res)=>{
+    try{
+        const {profile}=req.body;
+        console.log(req.body);
+        const user=await User.findById(req.body.id);
+        if(user){
+            console.log('f k upr');
+           let f = await user.update(profile,{multiple:true});
+            console.log('lll')
+            await user.save();
+            console.log(user.save());
+            return res.json({
+                message:"Profile Updated!!!"
+            })
+        }else{
+            return res.json({
+                message:"user not found",
+                error
+            })
+        }
+    }catch(error){
+        return res.json({
+            message:`error in uploading photo!!!`,
+            error
+        })
+    }
+})
+
 // get all users data
 router.route('/users').get(async (req, res) => {
     try {

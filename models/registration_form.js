@@ -23,8 +23,7 @@ const reg_form_schema = new mongoose.Schema({
         ref : 'User'
     },
     file: {
-        type: String,
-        required: true
+        type: String
     },
     isVerified : {
         type : String,

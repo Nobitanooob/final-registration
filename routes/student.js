@@ -8,6 +8,8 @@ const path = require('path');
 const FILE_PATH = path.join(__dirname, '..', '/uploads/reg');
 const verificationMailer = require('../mailers/verification_mail');
 
+
+
 router.route('/status').post(async (req, res) => {
     try {
         let form = await Reg_Form.findById(req.query.id);
@@ -119,6 +121,33 @@ router.post('/form/:id', async (req, res) => {
         })
     }
 });
+
+router.route('/forms/semester').post(async(req,res)=>{
+    try{
+        const semester=await Reg_Form.findOne({userId:req.body.id,semester:req.body.semester})
+        if(semester===null){
+            return res.json({
+                message:"form submitted",
+                status:true
+            })
+        }else{
+            return res.json({
+                message:"Already Submitted!!",
+                error,
+                status:false
+            })
+        }
+    }catch(error){
+        return res.json({
+            message:'form already submitted',
+            error,
+            status:false
+        })
+    }
+})
+
+
+
 
 
 // registration form get req

@@ -55,7 +55,7 @@ function App() {
     return (
       <ThemeProvider theme={theme}>
         <Paper >
-        <PageRoutes isStudent={isStudent} setTheme={setDarktheme} userId={userId} />
+        <PageRoutes isStudent={isStudent} setTheme={setDarktheme} userId={userId}  />
         </Paper>
       </ThemeProvider>
       );

@@ -8,14 +8,13 @@ import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import * as Yup from 'yup';
-import * as firebase from 'firebase';
 import {Storage} from "../../../index";
 import Notification from '../../toasts'
 
+import { v4 as uuidv4 } from 'uuid';
 
- 
   
-function RegistrationForm() {
+const RegistrationForm=(props) =>{
   const [user, setUser] = useState();
   const [uploadedFile, setFile] = useState(null);
   const [fileUrl, setUrl] = useState();
@@ -32,42 +31,17 @@ function RegistrationForm() {
 
   const handleFile = async (uploaded) => {
     const reader = new FileReader();
-    let file = uploaded[0]; // get the supplied file
-    // if there is a file, set image to that file
-    if (file) {
+    let file = uploaded[0]; 
       reader.onload = () => {
         if (reader.readyState === 2) {
-          // console.log(file);
           setFile(file);
         }
       };
       reader.readAsDataURL(uploaded[0]);
-    // if there is no file, set image back to null
-    } else {
-      setFile(null);
-    };
- 
-          //   let file = e[0];
-          //   const StorageRef = Storage.ref(`${localStorage.userId}/`);
-          //   const fileRef = StorageRef.child(`/url/data/${file.name}`);
-          //   fileRef.put(e)
-          //   const fileUrl = fileRef.getDownloadURL();
-          //   setUrl(fileUrl);
-          // console.log(fileUrl);
+    
     
   };
-  const uploadToFirebase = () => {
-      const fileRef = Storage.ref(`${localStorage.userId}/forms/${uploadedFile.name}`);
-      fileRef.put(uploadedFile).then(()=>{
-        alert("success");
-      })
-      .catch((e)=>{alert('not')});
-      fileRef.getDownloadURL()
-      .then((url)=>{
-        setUrl(url);
-      });
-  };
-
+  
 
   const initialValues={
     // name: '', email: '', department: '',programme:""
@@ -81,7 +55,20 @@ function RegistrationForm() {
   const onSubmit = async (value, { resetForm }) => {
     SetButtonText("Submitting ...");
     try {
-     uploadToFirebase();
+      const semesterData={
+        semester:semester,
+        id:`${localStorage.userId}`
+      }
+      const sem=await axios.post('api/student/forms/semester',semesterData);
+
+      if(sem.data.status){
+        const fileRef = await Storage.ref(`${localStorage.userId}/forms/${semester}/${uuidv4()}`);
+        await fileRef.put(uploadedFile);
+      const url=await fileRef.getDownloadURL()
+        setUrl(url);
+      }
+     
+      
      let form = {
        name: user.name,
        email: user.email,
@@ -89,9 +76,9 @@ function RegistrationForm() {
        programme: user.programme,
        semester: semester,
        fileUrl: fileUrl
-     }
+     };
+     console.log(fileUrl);
      let data = await axios.post(`/api/student/uploadForm/${localStorage.userId}`, form);
-     console.log(data);
 
      SetButtonText('submit');
      setSemester('');
@@ -222,7 +209,7 @@ function RegistrationForm() {
                   <Button
                     type="submit"
                     style={{marginBottom:"10px"}}
-                    color="primary"
+                    color={props.appBar}
                     variant="contained"
                     fullWidth
                   >{ buttonText }</Button>

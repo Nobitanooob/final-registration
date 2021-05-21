@@ -10,7 +10,7 @@ function PageRoutes(props) {  //props : userId isStudent
 	{
 		return (
 			<Router>
-			<Navbar isStudent={props.isStudent} userId={props.userId} setTheme={setTheme} />
+			<Navbar  isStudent={props.isStudent} userId={props.userId} setTheme={setTheme} />
 			</Router>
 		);
 	}

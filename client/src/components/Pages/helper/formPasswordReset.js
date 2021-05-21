@@ -202,7 +202,7 @@ export default class FormPasswordReset extends Component {
                 <Button
                   type="submit"
                   variant="contained"
-                  color="primary"
+                  color={this.props.appBar}
                   disabled={Boolean(!isValid || isSubmitting)}
                   style={{ margin: '16px' }}
                 >

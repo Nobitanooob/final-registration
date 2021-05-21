@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 toast.configure();
 
   
- const AddNewUser = () => {
+ const AddNewUser = (props) => {
     
    const [buttonText, SetButtonText] = useState("Submit");
    const [program, setProgram] = useState('teacher');
@@ -299,7 +299,7 @@ toast.configure();
                   <Button
                     type="submit"
                     style={marginBottom}
-                    color="primary"
+                    color={props.appBar}
                     variant="contained"
                     fullWidth
                   >{ buttonText }</Button>
