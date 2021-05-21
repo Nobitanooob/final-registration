@@ -11,7 +11,6 @@ let transporter = nodemailer.createTransport({
         pass: process.env.NODEMAILER_PASSWORD
     }
 });
-
 let renderTemplate = (data, relativePath) => {
     let mailHTML;
     ejs.renderFile(

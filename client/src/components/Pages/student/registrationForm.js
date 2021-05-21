@@ -34,7 +34,7 @@ const RegistrationForm=(props) =>{
     let file = uploaded[0]; 
       reader.onload = () => {
         if (reader.readyState === 2) {
-          setFile(file);
+           setFile(file);
         }
       };
       reader.readAsDataURL(uploaded[0]);
@@ -42,7 +42,7 @@ const RegistrationForm=(props) =>{
     
   };
   
-
+ 
   const initialValues={
     // name: '', email: '', department: '',programme:""
   };
@@ -65,7 +65,7 @@ const RegistrationForm=(props) =>{
         const fileRef = await Storage.ref(`${localStorage.userId}/forms/${semester}/${uuidv4()}`);
         await fileRef.put(uploadedFile);
       const url=await fileRef.getDownloadURL()
-        setUrl(url);
+        await setUrl(url);
       }
      
       
