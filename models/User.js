@@ -32,7 +32,7 @@ const userschema = new mongoose.Schema({
         required: true,
     },
     profile:{
-        type:String
+        type:String,
     },
     forms: [{
         type: mongoose.Schema.Types.ObjectId,

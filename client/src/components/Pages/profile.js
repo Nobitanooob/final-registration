@@ -48,7 +48,7 @@ const About = (props) => {
 
   const uploadToFirebase =  async() => {
     setUploadedProfile('uploading...');
-    const fileRef = Storage.ref(`${localStorage.userId}/profile/photo`);
+    const fileRef = Storage.ref(`${user.email}/profile/photo`);
      await fileRef.put(uploadedFile);
      const url=await fileRef.getDownloadURL();
         setUrl(url);

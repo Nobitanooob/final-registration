@@ -39,12 +39,11 @@ router.route('/user').post(async(req,res)=>{
         const {profile}=req.body;
         console.log(req.body);
         const user=await User.findById(req.body.id);
+
         if(user){
-            console.log('f k upr');
-           let f = await user.update(profile,{multiple:true});
-            console.log('lll')
+            await user.update(profile);
+            console.log(profile);
             await user.save();
-            console.log(user.save());
             return res.json({
                 message:"Profile Updated!!!"
             })
