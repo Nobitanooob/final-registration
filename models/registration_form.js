@@ -24,6 +24,7 @@ const reg_form_schema = new mongoose.Schema({
     },
     file: {
         type: String,
+        required: true
     },
     isVerified : {
         type : String,
