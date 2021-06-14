@@ -67,7 +67,7 @@ const RegistrationForm=(props) =>{
        department: user.department,
        programme: user.programme,
        semester: semester,
-       fileUrl: fileUrl
+       fileUrl: url
      };
      console.log(fileUrl);
      let data = await axios.post(`/api/student/uploadForm/${localStorage.userId}`, form);
