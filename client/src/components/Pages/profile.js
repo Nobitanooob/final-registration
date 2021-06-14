@@ -11,7 +11,7 @@ const About = (props) => {
 
   const [uploadedProfile,setUploadedProfile]=useState('Upload');
   const [uploadedFile, setFile] = useState([]);
-  const [fileUrl, setUrl] = useState();
+  // const [fileUrl, setUrl] = useState();
   const [disablebutton,setButton]=useState(false);
   useEffect(() => {
     // getting user details by api call
@@ -51,7 +51,6 @@ const About = (props) => {
       const fileRef = Storage.ref(`${user.email}/profile/${uploadedFile[i].name}`);
       await fileRef.put(uploadedFile[i]);
        const url=await fileRef.getDownloadURL();
-        setUrl(url);
         console.log(url);
         const users={
           id:`${localStorage.userId}`,
