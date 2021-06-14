@@ -51,18 +51,14 @@ const RegistrationForm=(props) =>{
   const onSubmit = async (value, { resetForm }) => {
     SetButtonText("Submitting ...");
     try {
-      const semesterData={
-        semester:semester,
-        id:`${localStorage.userId}`
-      }
-      const sem=await axios.post('api/student/forms/semester',semesterData);
+     
 
-      if(sem.data.status){
+      
         const fileRef = await Storage.ref(`${user.email}/forms/${semester}/${uuidv4()}`);
         await fileRef.put(uploadedFile);
       const url=await fileRef.getDownloadURL()
         await setUrl(url);
-      }
+      console.log(url);
      
       
      let form = {
