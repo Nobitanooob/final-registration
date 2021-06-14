@@ -32,12 +32,9 @@ const userschema = new mongoose.Schema({
         required: true,
     },
     profile:
-        [
             {
                 type:String,
-            }
-            
-        ],
+            },
     forms: [{
         type: mongoose.Schema.Types.ObjectId,
         ref : 'Reg_Form'

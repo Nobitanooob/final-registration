@@ -25,7 +25,7 @@ const About = (props) => {
   const handleFile = async (uploaded) => {
     // const reader =   new FileReader();
     
-    let file = uploaded; 
+    let file = uploaded[0]; 
     // if (file) {
     //   reader.onload = () => {
     //     if (reader.readyState === 2) {
@@ -46,24 +46,22 @@ const About = (props) => {
 
   const uploadToFirebase =  async() => {
     setUploadedProfile('uploading...');
-    for(let i=0; i<uploadedFile.length;i++)
-    {
-      const fileRef = Storage.ref(`${user.email}/profile/${uploadedFile[i].name}`);
-      await fileRef.put(uploadedFile[i]);
+   
+      const fileRef = Storage.ref(`${user.email}/profile/image`);
+      await fileRef.put(uploadedFile);
        const url=await fileRef.getDownloadURL();
         console.log(url);
         const users={
           id:`${localStorage.userId}`,
           profile:url
          };
-         console.log(users);
     await axios.post(`/api/userdata`, users);
 
-    }
+
     
      
     
-    window.location.reload();
+    // window.location.reload();
 
 };
 

@@ -1,4 +1,3 @@
-// to be done later
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 import axios from 'axios';
@@ -115,15 +114,15 @@ export default function PendingReg() {
   ];
   
   const rows = user.map((data, index) => {
-    //console.log(data.file);
+    console.log(data.name);
     return ({
       id: index,
-      name: data.userId.name,
-      email: data.userId.email,
+      name: data.name,
+      email: data.email,
       date: data.updatedAt.slice(0,10),
-      department: data.userId.department,
-      rollno: data.userId.rollno,
-      programme : data.userId.programme,
+      department: data.department,
+      rollno: data.rollno,
+      programme : data.programme,
       file: data.file,
       display: data,
       status: data.isVerified
@@ -146,5 +145,3 @@ export default function PendingReg() {
     </div>
   );
 }
-
-  

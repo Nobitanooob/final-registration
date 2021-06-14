@@ -35,8 +35,9 @@ router.route('/allReg').get(async (req, res) => {
 });
 //post user
 router.route('/userdata').post(async(req,res)=>{
-    try{
-        User.findByIdAndUpdateMany(req.body.id, { profile:req.body.profile },
+    try{console.log(req.body.profile);
+        User.findByIdAndUpdate(req.body.id, { profile:req.body.profile },
+            
         function (err, docs) {
             if (!err){
                 return res.json({
