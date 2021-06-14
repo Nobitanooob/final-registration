@@ -91,6 +91,7 @@ const About = (props) => {
                       marginBottom:"20px",
                       background:props.profileColor
                     }} >
+                        {user && user.name && user && user.name.charAt(0)}
                     </Avatar>
                      
                     <Formik >
