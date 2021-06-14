@@ -19,7 +19,6 @@ export default function PendingReg() {
   const handleUser = () => {
     axios.get('/api/allReg')
       .then(data => {
-        //console.log(data.data.reg)
         setUser(data.data.reg);
       }).then(() => {
         setLoaded(false);
@@ -114,15 +113,15 @@ export default function PendingReg() {
   ];
   
   const rows = user.map((data, index) => {
-    console.log(data.name);
+    // console.log(data);
     return ({
       id: index,
-      name: data.name,
-      email: data.email,
+      name: data.userId.name,
+      email: data.userId.email,
       date: data.updatedAt.slice(0,10),
-      department: data.department,
-      rollno: data.rollno,
-      programme : data.programme,
+      department: data.userId.department,
+      rollno: data.userId.rollno,
+      programme : data.userId.programme,
       file: data.file,
       display: data,
       status: data.isVerified
