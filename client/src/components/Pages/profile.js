@@ -10,7 +10,7 @@ const About = (props) => {
   let [user, setUser] = useState('');
 
   const [uploadedProfile,setUploadedProfile]=useState('Upload');
-  const [uploadedFile, setFile] = useState();
+  const [uploadedFile, setFile] = useState(null);
   const [fileUrl, setUrl] = useState();
   const [disablebutton,setButton]=useState(false);
   useEffect(() => {
@@ -90,6 +90,7 @@ const About = (props) => {
                       marginBottom:"20px",
                       background:props.profileColor
                     }} >
+                      {user && user.name && user && user.name.charAt(0)}
                     </Avatar>
                      
                     <Formik >
