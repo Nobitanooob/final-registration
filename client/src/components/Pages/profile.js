@@ -10,7 +10,7 @@ const About = (props) => {
   let [user, setUser] = useState('');
 
   const [uploadedProfile,setUploadedProfile]=useState('Upload');
-  const [uploadedFile, setFile] = useState(null);
+  const [uploadedFile, setFile] = useState([]);
   const [fileUrl, setUrl] = useState();
   const [disablebutton,setButton]=useState(false);
   useEffect(() => {
@@ -23,19 +23,20 @@ const About = (props) => {
   },[]);
 
   const handleFile = async (uploaded) => {
-    const reader =   new FileReader();
-    let file = uploaded[0]; 
-    if (file) {
-      reader.onload = () => {
-        if (reader.readyState === 2) {
+    // const reader =   new FileReader();
+    
+    let file = uploaded; 
+    // if (file) {
+    //   reader.onload = () => {
+    //     if (reader.readyState === 2) {
           setFile(file);
-          console.log(uploadedFile);
-        }
-      };
-      reader.readAsDataURL(uploaded[0]);
-    } else {
-      setFile(null);
-    };
+    //       console.log(uploadedFile);
+    //     }
+    //   };
+    //   reader.readAsDataURL(uploaded[0]);
+    // } else {
+    //   setFile(null);
+    // };
     setButton(true);
   };
 
@@ -45,9 +46,11 @@ const About = (props) => {
 
   const uploadToFirebase =  async() => {
     setUploadedProfile('uploading...');
-    const fileRef = Storage.ref(`${user.email}/profile/photo`);
-     await fileRef.put(uploadedFile);
-     const url=await fileRef.getDownloadURL();
+    for(let i=0; i<uploadedFile.length;i++)
+    {
+      const fileRef = Storage.ref(`${user.email}/profile/${uploadedFile[i].name}`);
+      await fileRef.put(uploadedFile[i]);
+       const url=await fileRef.getDownloadURL();
         setUrl(url);
         console.log(url);
         const users={
@@ -57,6 +60,10 @@ const About = (props) => {
          console.log(users);
     await axios.post(`/api/userdata`, users);
 
+    }
+    
+     
+    
     window.location.reload();
 
 };
@@ -95,8 +102,10 @@ const About = (props) => {
                 style={{marginBottom:"10px"}}
                 onChange={(e)=>handleFile(e.target.files)}
                 type="file"
+                multiple
                     id="outlined-disabled"
                     variant="outlined"
+                    accept="media_type"
                   />
                    {/* {console.log(p)} */}
                   

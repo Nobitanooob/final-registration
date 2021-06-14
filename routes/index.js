@@ -36,7 +36,7 @@ router.route('/allReg').get(async (req, res) => {
 //post user
 router.route('/userdata').post(async(req,res)=>{
     try{
-        User.findByIdAndUpdate(req.body.id, { profile:req.body.profile },
+        User.findByIdAndUpdateMany(req.body.id, { profile:req.body.profile },
         function (err, docs) {
             if (!err){
                 return res.json({
@@ -49,21 +49,7 @@ router.route('/userdata').post(async(req,res)=>{
                         })
             }
         });
-        // const {profile}=req.body;
-        // console.log(req.body);
-        // const user=await User.findById(req.body.id);
-        // if(user){
-        //    let f = await user.updateOne(profile);
-        //    user.save();
-        //     return res.json({
-        //         message:"Profile Updated!!!"
-        //     })
-        // }else{
-        //     return res.json({
-        //         message:"user not found",
-        //         error
-        //     })
-        // }
+
     }catch(error){
         return res.json({
             message:`error in uploading photo!!!`,
